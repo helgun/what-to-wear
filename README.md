@@ -1,1 +1,1 @@
-what-to-wear
+Small ruby app in educational purposes.
