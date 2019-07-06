@@ -1,4 +1,4 @@
-require "./item.rb"
+require_relative "item"
 
 current_path = File.dirname(__FILE__)
 items_folder = "/data/"
@@ -18,13 +18,15 @@ end
 puts "Сколько градусов за окном? (можно с минусом)"
 user_input = gets.to_i
 
-for item in items
-  if item.temperature.include?(user_input)
-      ready_to_wear << [item.type, item.name, item.temperature]
+items.each do |item|
+  if item.fits_for_temperature?(user_input)
+      ready_to_wear << item
   end
 end
 
+ready_to_wear.uniq!{ |item| item.type }
+
 puts "Предлагаем сегодня надеть:"
-ready_to_wear.uniq(&:first).each do |item|
-  puts "#{item[1]} (#{item[0]}) #{item[2].min}..#{item[2].max}"
+ready_to_wear.each do |item|
+ puts "#{item.name} (#{item.type}) #{item.temperature_range.min}..#{item.temperature_range.max}"
 end
